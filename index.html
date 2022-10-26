@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <title>8 Queens Problem</title>
+</head>
+<body class="bg-dark text-white py-1 px-3">
+
+    <div id="myApp" class="container-fluid">
+
+        <div class="row">
+            <div class="col-7">
+                <h1>8 Queens problem <span class="h5">Total de soluciones posibles: <span class="fw-bold">{{ totalSoluciones }}</span></span></h1>
+            </div>
+            <div class="col-5">
+                <button class="btn btn-outline-primary my-2" @click="setSolucion()">
+                    Mostrar una solucion
+                </button>
+                <button class="btn btn-outline-primary my-2 mx-3" @click="ejecutarAsignacion()">
+                    Nueva asignacion
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <h5>{{ parent1 }}</h5>
+                <span class="h5"> Fitnes: <b class="text-primary">{{ fitnes1 }}</b> => <b>{{ porcentaje1 }}%</b></span>
+                <h5 v-if="fitnes1 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+            <div class="col-3">
+                <h5>{{ parent2 }}</h5>
+                <span class="h5"> Fitnes: <b class="text-primary">{{ fitnes2 }}</b> => <b>{{ porcentaje2 }}%</b></span>
+                <h5 v-if="fitnes2 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+            <div class="col-3">
+                <h5>{{ parent3 }}</h5>
+                <span class="h5"> Fitnes: <b class="text-primary">{{ fitnes3 }}</b> => <b>{{ porcentaje3 }}%</b></span>
+                <h5 v-if="fitnes3 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+        </div>
+
+        <div class="d-flex my-2">
+            <div class="d-flex flex-column">
+                <span class="d-flex justify-content-end num">8</span>
+                <span class="d-flex justify-content-end num">7</span>
+                <span class="d-flex justify-content-end num">6</span>
+                <span class="d-flex justify-content-end num">5</span>
+                <span class="d-flex justify-content-end num">4</span>
+                <span class="d-flex justify-content-end num">3</span>
+                <span class="d-flex justify-content-end num">2</span>
+                <span class="d-flex justify-content-end num">1</span>
+            </div>
+                <div v-for="(col, indexC) in tableroBase1" class="d-flex flex-column">
+                    <div
+                        v-for="(row, indexR) in col"
+                        class="square d-flex align-items-center justify-content-center"
+                        @click="totalAttacks(indexC,indexR,tableroBase1)">
+                        <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                    </div>
+                    <span>{{ indexC+1 }}</span>
+                </div>
+            <div class="mx-2"></div>
+
+            <div v-for="(col, indexC) in tableroBase2" class="d-flex flex-column">
+                <div
+                    v-for="row in col"
+                    class="square d-flex align-items-center justify-content-center">
+                    <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                </div>
+                <span>{{ indexC+1 }}</span>
+            </div>
+            <div class="mx-2"></div>
+
+            <div v-for="(col, indexC) in tableroBase3" class="d-flex flex-column">
+                <div
+                    v-for="row in col"
+                    class="square d-flex align-items-center justify-content-center">
+                    <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                </div>
+                <span>{{ indexC+1 }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <h5>Padres seleccionados</h5>
+            </div>
+            <div class="col-3">
+                <h5>{{ selectParent1 }}</h5>
+            </div>
+            <div class="col-3">
+                <h5>{{ selectParent2 }}</h5>
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <div class="col">
+                <span class=" col-1 h5">Hijos</span>
+            </div>
+            <div class="col">
+                <span class=" col-1 h5">Mutacion</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <h5>{{ hijo1 }}</h5>
+                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesHijo1 }}</b> => {{porcentajeHijo1}}%</span>
+                <h5 v-if="fitnesHijo1 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+            <div class="col-3">
+                <h5>{{ hijo2 }}</h5>
+                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesHijo2 }}</b> => {{porcentajeHijo2}}%</span>
+                <h5 v-if="fitnesHijo2 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+
+            <div class="col-3">
+                <h5>{{ mutacion1 }}</h5>
+                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesMutacion1 }}</b> => {{ porcentajeMutacion1 }}%</span>
+                <h5 v-if="fitnesMutacion1 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+            <div class="col-3">
+                <h5>{{ mutacion2 }}</h5>
+                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesMutacion2 }}</b> => {{ porcentajeMutacion2 }}%</span>
+                <h5 v-if="fitnesMutacion2 == 28" class="text-success">Solucion encontrada</h5>
+            </div>
+        </div>
+
+        <div class="d-flex my-2">
+            <div class="d-flex flex-column">
+                <span class="d-flex justify-content-end num">8</span>
+                <span class="d-flex justify-content-end num">7</span>
+                <span class="d-flex justify-content-end num">6</span>
+                <span class="d-flex justify-content-end num">5</span>
+                <span class="d-flex justify-content-end num">4</span>
+                <span class="d-flex justify-content-end num">3</span>
+                <span class="d-flex justify-content-end num">2</span>
+                <span class="d-flex justify-content-end num">1</span>
+            </div>
+            <div v-for="(col, indexC) in tableroHijo1" class="d-flex flex-column">
+                <div
+                    v-for="(row, indexR) in col"
+                    class="square d-flex align-items-center justify-content-center"
+                    @click="totalAttacks(indexC,indexR,tableroBase1)">
+                    <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                </div>
+                <span>{{ indexC+1 }}</span>
+            </div>
+            <div class="mx-2"></div>
+
+            <div v-for="(col, indexC) in tableroHijo2" class="d-flex flex-column">
+                <div
+                    v-for="row in col"
+                    class="square d-flex align-items-center justify-content-center">
+                    <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                </div>
+                <span>{{ indexC+1 }}</span>
+            </div>
+            
+            <div class="mx-5"></div>
+
+            <div v-for="(col, indexC) in tableroMutacion1" class="d-flex flex-column">
+                <div
+                    v-for="row in col"
+                    class="square d-flex align-items-center justify-content-center">
+                    <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                </div>
+                <span>{{ indexC+1 }}</span>
+            </div>
+            <div class="mx-3"></div>
+
+            <div v-for="(col, indexC) in tableroMutacion2" class="d-flex flex-column">
+                <div
+                    v-for="row in col"
+                    class="square d-flex align-items-center justify-content-center">
+                    <span v-if="row.queen == 1" class="h3 text-dark"><img src="assets/queen_circle.png" alt="queen_circle" width="25" height="25"></span>
+                </div>
+                <span>{{ indexC+1 }}</span>
+            </div>
+        </div>
+
+        <span class="lead">By: Andres Camilo Morales Chaves && Jennifer Catalina Diaz Calderon</span>
+
+    </div>
+
+    <!-- CDN Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Script Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+</body>
+</html>
