@@ -13,14 +13,14 @@
     <div id="myApp" class="container-fluid">
 
         <div class="row">
-            <div class="col-7">
-                <h1>8 Queens problem <span class="h5">Total de soluciones posibles: <span class="fw-bold">{{ totalSoluciones }}</span></span></h1>
+            <div class="col-6">
+                <h1>8 Queens problem <span class="h5"># Soluciones posibles: <span class="fw-bold">{{ totalSoluciones }}</span></span></h1>
             </div>
             <div class="col-5">
-                <button class="btn btn-outline-primary my-2" @click="setSolucion()">
-                    Mostrar una solucion
+                <button class="btn btn-success my-2" @click="setSolucions()">
+                    Mostrar unas soluciones
                 </button>
-                <button class="btn btn-outline-primary my-2 mx-3" @click="ejecutarAsignacion()">
+                <button class="btn btn-primary my-2 mx-3" @click="ejecutarAsignacion()">
                     Nueva asignacion
                 </button>
             </div>
@@ -29,17 +29,17 @@
         <div class="row">
             <div class="col-3">
                 <h5>{{ parent1 }}</h5>
-                <span class="h5"> Fitnes: <b class="text-primary">{{ fitnes1 }}</b> => <b>{{ porcentaje1 }}%</b></span>
+                <span class="h5"> Fitness: <b class="text-primary">{{ fitnes1 }}</b> => <b>{{ porcentaje1 }}%</b></span>
                 <h5 v-if="fitnes1 == 28" class="text-success">Solucion encontrada</h5>
             </div>
             <div class="col-3">
                 <h5>{{ parent2 }}</h5>
-                <span class="h5"> Fitnes: <b class="text-primary">{{ fitnes2 }}</b> => <b>{{ porcentaje2 }}%</b></span>
+                <span class="h5"> Fitness: <b class="text-primary">{{ fitnes2 }}</b> => <b>{{ porcentaje2 }}%</b></span>
                 <h5 v-if="fitnes2 == 28" class="text-success">Solucion encontrada</h5>
             </div>
             <div class="col-3">
                 <h5>{{ parent3 }}</h5>
-                <span class="h5"> Fitnes: <b class="text-primary">{{ fitnes3 }}</b> => <b>{{ porcentaje3 }}%</b></span>
+                <span class="h5"> Fitness: <b class="text-primary">{{ fitnes3 }}</b> => <b>{{ porcentaje3 }}%</b></span>
                 <h5 v-if="fitnes3 == 28" class="text-success">Solucion encontrada</h5>
             </div>
         </div>
@@ -88,7 +88,7 @@
 
         <div class="row">
             <div class="col-3">
-                <h5>Padres seleccionados</h5>
+                <h5>Padres seleccionados: </h5>
             </div>
             <div class="col-3">
                 <h5>{{ selectParent1 }}</h5>
@@ -101,33 +101,33 @@
 
         <div class="row">
             <div class="col">
-                <span class=" col-1 h5">Hijos</span>
+                <span class=" col-1 h5">Hijos: </span>
             </div>
             <div class="col">
-                <span class=" col-1 h5">Mutacion</span>
+                <span class=" col-1 h5">Mutacion: </span>
             </div>
         </div>
 
         <div class="row">
             <div class="col-3">
                 <h5>{{ hijo1 }}</h5>
-                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesHijo1 }}</b> => {{porcentajeHijo1}}%</span>
+                <span class="h5">Fitness: <b class="text-primary">{{ fitnesHijo1 }}</b> => {{porcentajeHijo1}}%</span>
                 <h5 v-if="fitnesHijo1 == 28" class="text-success">Solucion encontrada</h5>
             </div>
             <div class="col-3">
                 <h5>{{ hijo2 }}</h5>
-                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesHijo2 }}</b> => {{porcentajeHijo2}}%</span>
+                <span class="h5">Fitness: <b class="text-primary">{{ fitnesHijo2 }}</b> => {{porcentajeHijo2}}%</span>
                 <h5 v-if="fitnesHijo2 == 28" class="text-success">Solucion encontrada</h5>
             </div>
 
             <div class="col-3">
                 <h5>{{ mutacion1 }}</h5>
-                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesMutacion1 }}</b> => {{ porcentajeMutacion1 }}%</span>
+                <span class="h5">Fitness: <b class="text-primary">{{ fitnesMutacion1 }}</b> => {{ porcentajeMutacion1 }}%</span>
                 <h5 v-if="fitnesMutacion1 == 28" class="text-success">Solucion encontrada</h5>
             </div>
             <div class="col-3">
                 <h5>{{ mutacion2 }}</h5>
-                <span class="h5">Fitnes: <b class="text-primary">{{ fitnesMutacion2 }}</b> => {{ porcentajeMutacion2 }}%</span>
+                <span class="h5">Fitness: <b class="text-primary">{{ fitnesMutacion2 }}</b> => {{ porcentajeMutacion2 }}%</span>
                 <h5 v-if="fitnesMutacion2 == 28" class="text-success">Solucion encontrada</h5>
             </div>
         </div>

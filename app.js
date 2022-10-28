@@ -668,7 +668,7 @@ const app = Vue.createApp({
             }
             
         },
-        totalAttacks(col,row, tablero) {
+        totalAttacksQueen(col,row, tablero) {
             var nRow = 0;
             var nCol = 0;
             var nDiag = 0;
@@ -694,25 +694,38 @@ const app = Vue.createApp({
             }
             return nRow+nCol+nDiag;
         },
-        getFitnes(tablero) {
+        totalAttacksTablero(tablero) {
             var fitnes = 0;
             for(let i=0;i<8;i++) {
                 for(let j=0;j<8;j++) {
                     if(tablero[j][i].queen == 1) {
-                        fitnes += this.totalAttacks(j,i,tablero);
+                        fitnes += this.totalAttacksQueen(j,i,tablero);
                     }
                 }
             }
             return fitnes;
         },
-        setSolucion() {
+        setSolucions() {
             this.limpiarTablero(this.tableroBase1);
-            this.parent1 = [1, 6, 8, 3, 7, 4, 2, 5];
-            this.setQueens( this.parent1, this.tableroBase1);
+            this.limpiarTablero(this.tableroBase2);
+            this.limpiarTablero(this.tableroBase3);
 
-            this.fitnes1 = 28-(this.getFitnes(this.tableroBase1)/2);
+            this.parent1 = [4, 2, 5, 8, 6, 1, 3, 7];
+            this.parent2 = [1, 7, 5, 8, 2, 4, 6, 3];
+            this.parent3 = [7, 5, 3, 1, 6, 8, 2, 4];
+
+            this.setQueens( this.parent1, this.tableroBase1);
+            this.setQueens( this.parent2, this.tableroBase2);
+            this.setQueens( this.parent3, this.tableroBase3);
+
+            this.fitnes1 = 28-(this.totalAttacksTablero(this.tableroBase1)/2);
+            this.fitnes2 = 28-(this.totalAttacksTablero(this.tableroBase2)/2);
+            this.fitnes3 = 28-(this.totalAttacksTablero(this.tableroBase3)/2);
             let totalFitnes =  this.fitnes1 +  this.fitnes2 +  this.fitnes3;
+
             this.porcentaje1 =  Math.round((this.fitnes1/totalFitnes)*100);
+            this.porcentaje2 =  Math.round((this.fitnes2/totalFitnes)*100);
+            this.porcentaje3 =  Math.round((this.fitnes3/totalFitnes)*100);
         },
         ejecutarAsignacion() {
             this.limpiarTablero(this.tableroBase1);
@@ -724,8 +737,7 @@ const app = Vue.createApp({
 
             this.limpiarTablero(this.tableroMutacion1);
             this.limpiarTablero(this.tableroMutacion2);
-
-            // this.parent1 = [1, 6, 8, 3, 7, 4, 2, 5]; // Una solucion
+        
             this.parent1 = this.genRandomArrayValues();
             this.parent2 = this.genRandomArrayValues();
             this.parent3 = this.genRandomArrayValues();
@@ -734,11 +746,9 @@ const app = Vue.createApp({
             this.setQueens(this.parent2, this.tableroBase2);
             this.setQueens(this.parent3, this.tableroBase3);
 
-            this.totalSoluciones = this.totalSolutionsNQueens(8);
-
-            this.fitnes1 = 28-(this.getFitnes(this.tableroBase1)/2);
-            this.fitnes2 = 28-(this.getFitnes(this.tableroBase2)/2);
-            this.fitnes3 = 28-(this.getFitnes(this.tableroBase3)/2);
+            this.fitnes1 = 28-(this.totalAttacksTablero(this.tableroBase1)/2);
+            this.fitnes2 = 28-(this.totalAttacksTablero(this.tableroBase2)/2);
+            this.fitnes3 = 28-(this.totalAttacksTablero(this.tableroBase3)/2);
 
             let totalFitnes =  this.fitnes1 +  this.fitnes2 +  this.fitnes3;
             this.porcentaje1 =  Math.round((this.fitnes1/totalFitnes)*100);
@@ -785,8 +795,8 @@ const app = Vue.createApp({
             this.setQueens(this.hijo1,this.tableroHijo1);
             this.setQueens(this.hijo2,this.tableroHijo2);
 
-            this.fitnesHijo1 = 28-(this.getFitnes(this.tableroHijo1)/2);
-            this.fitnesHijo2 = 28-(this.getFitnes(this.tableroHijo2)/2);
+            this.fitnesHijo1 = 28-(this.totalAttacksTablero(this.tableroHijo1)/2);
+            this.fitnesHijo2 = 28-(this.totalAttacksTablero(this.tableroHijo2)/2);
 
             let totalFitnesHijos = this.fitnesHijo1 +  this.fitnesHijo2;
 
@@ -816,8 +826,8 @@ const app = Vue.createApp({
             this.setQueens(this.mutacion1,this.tableroMutacion1);
             this.setQueens(this.mutacion2,this.tableroMutacion2);
 
-            this.fitnesMutacion1 = 28-(this.getFitnes(this.tableroMutacion1)/2);
-            this.fitnesMutacion2 = 28-(this.getFitnes(this.tableroMutacion2)/2);
+            this.fitnesMutacion1 = 28-(this.totalAttacksTablero(this.tableroMutacion1)/2);
+            this.fitnesMutacion2 = 28-(this.totalAttacksTablero(this.tableroMutacion2)/2);
 
             let totalFitnesMutaciones = this.fitnesMutacion1 +  this.fitnesMutacion2;
 
@@ -827,6 +837,7 @@ const app = Vue.createApp({
     },
     mounted() {
         this.ejecutarAsignacion();
+        this.totalSoluciones = this.totalSolutionsNQueens(8);
     }
 })
 
